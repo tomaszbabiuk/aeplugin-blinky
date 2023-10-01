@@ -22,18 +22,18 @@ import eu.automateeverything.data.configurables.ControlType
 import eu.automateeverything.data.instances.InstanceDto
 import eu.automateeverything.domain.automation.StateDeviceAutomationUnitBase
 import eu.automateeverything.domain.events.EventBus
-import eu.automateeverything.domain.hardware.OutputPort
+import eu.automateeverything.domain.hardware.Port
 import eu.automateeverything.domain.hardware.Relay
 import java.lang.Exception
-import kotlin.Throws
 import java.util.Calendar
+import kotlin.Throws
 
 class BlinkerAutomationUnit(
     eventBus: EventBus,
     instance: InstanceDto,
     name: String,
     states: Map<String, State>,
-    private val controlPort: OutputPort<Relay>,
+    private val controlPort: Port<Relay>,
     private val interval: Int
 ) : StateDeviceAutomationUnitBase(eventBus, instance, name, ControlType.States, states, false) {
 
@@ -47,7 +47,7 @@ class BlinkerAutomationUnit(
     }
 
     override val usedPortsIds: Array<String>
-        get() = arrayOf(controlPort.id)
+        get() = arrayOf(controlPort.portId)
 
     override fun calculateInternal(now: Calendar) {
         if (controlPort.read() == Relay.ON) {
